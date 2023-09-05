@@ -34,8 +34,8 @@ class ProductRepository
     end
   end
 
-  def select_by_id
-    @db.execute 'select * from products where id = ?' do |row|
+  def select_by_id(product)
+    @db.execute "select * from products where id = #{product.id}" do |row|
       p row
     end
   end
