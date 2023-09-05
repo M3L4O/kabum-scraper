@@ -1,4 +1,5 @@
 require 'sqlite3'
+require_relative '../app/model/product'
 
 class ProductRepository
   def initialize
@@ -29,26 +30,26 @@ class ProductRepository
   end
 
   def select_all
-    @db.execute 'select * from products' do |row|
-      p row
+    @db.execute('select * from products').map do |id, name, price, link|
+      Product.new(id, name, price, link)
     end
   end
 
-  def select_by_id(product)
-    @db.execute "select * from products where id = #{product.id}" do |row|
-      p row
+  def select_by_id(product_id)
+    @db.execute("select * from products where id = #{product_id}").map do |id, name, price, link|
+      Product.new(id, name, price, link)
     end
   end
 
-  def select_by_name(name)
-    @db.execute "select * from products where name like '%#{name}%'" do |row|
-      p row
+  def select_by_name(product_name)
+    @db.execute("select * from products where name like '%#{product_name}%'").map do |id, name, price, link|
+      Product.new(id, name, price, link)
     end
   end
 
   def filter_by_price(operator, value)
-    @db.execute "select * from products where price #{operator} #{value}" do |row|
-      p row
+    @db.execute("select * from products where price #{operator} #{value}").map do |id, name, price, link|
+      Product.new(id, name, price, link)
     end
   end
 end

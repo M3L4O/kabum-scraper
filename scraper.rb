@@ -20,11 +20,11 @@ while i <= last_page
     doc = Nokogiri::HTML(URI.open(page))
   end
   (doc.css('.nameCard').zip(doc.css('.priceCard'), doc.css('.productLink')).map do |name, price, link|
-    product = Product.new(name.content, price.text, base_url + link['href'])
-    repository.add(product)
+    repository.add(Product.new(nil, name.content, price.text, base_url + link['href']))
   end)
   i += 1
 end
 
-repository.select_all
-repository.select_by_name('AMD Ryzen 7 5700G')
+repository.select_all.each do |product|
+  p product
+end
